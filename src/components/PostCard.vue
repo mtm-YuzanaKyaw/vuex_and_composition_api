@@ -3,19 +3,37 @@
     <div class="card-body">
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">{{ post.body }}</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <button class="btn btn-primary" @click="deletePost">Delete</button>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 export default defineComponent ({
   props: {
     post: {
       type: Object
     }
   },
+
+  emits: ['deletePost'],
+  setup(props, context){
+    const date = computed(() =>{
+      console.log(props.post)
+      if(!props.post) return
+      return props.post
+    })
+
+    const deletePost = () => {
+      context.emit('deletePost', props.post.id)
+    }
+
+    return {
+      date,
+      deletePost
+    }
+  }
 })
 </script>
 

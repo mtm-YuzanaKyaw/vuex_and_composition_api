@@ -6,28 +6,38 @@
         v-for="post in allPosts"
         :post="post"
         :key="post.id"
-        class="p-2"
+        @deletePost="removePost"
         />
     </div>
   </div>
 </template>
 
 <script>
+import { defineComponent  } from 'vue';
 import PostCard from '@/components/PostCard.vue';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, useStore } from 'vuex';
 
-export default {
+export default defineComponent({
     components: { PostCard },
     computed: {
-        ...mapGetters(['allPosts'])
+        ...mapGetters(['allPosts']),
     },
     methods: {
-      ...mapActions(['getPosts'])
+      ...mapActions(['getPosts','deletePost'])
     },
     mounted() {
       this.getPosts();
-    }
-}
+    },
+    setup(){
+      const store = useStore()
+      const removePost = ((id) => store.dispatch('deletePost', id))
+
+      return {
+        removePost
+      }
+    },
+
+})
 </script>
 
 <style>
