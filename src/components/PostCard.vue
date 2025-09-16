@@ -3,7 +3,8 @@
     <div class="card-body">
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">{{ post.body }}</p>
-        <button class="btn btn-primary" @click="deletePost">Delete</button>
+        <button class="btn btn-primary mx-3" @click="deletePost">Delete</button>
+        <button class="btn btn-primary" @click="editPost">Edit</button>
     </div>
   </div>
 </template>
@@ -17,7 +18,7 @@ export default defineComponent ({
     }
   },
 
-  emits: ['deletePost'],
+  emits: ['deletePost', 'editPost'],
   setup(props, context){
     const date = computed(() =>{
       console.log(props.post)
@@ -29,9 +30,14 @@ export default defineComponent ({
       context.emit('deletePost', props.post.id)
     }
 
+    const editPost = () => {
+      context.emit('editPost', props.post.id)
+    }
+
     return {
       date,
-      deletePost
+      deletePost,
+      editPost
     }
   }
 })
